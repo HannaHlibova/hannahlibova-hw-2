@@ -8,6 +8,23 @@
 //   other: [‘b’, ‘c’, ‘d’]
 // }
 
+const arr = [];
+
+function foo() {
+  for ( let i = 0; i < arguments.length; i++ ) {
+    arr.push(arguments[i]);
+  }
+  
+  const [ first, ...other ] = arr;
+  
+  return {
+    first: first,
+    other: other
+  };
+}
+
+foo('a', 'b', 'c', 'd', 'e');
+
 
 // 2)
 // Организовать функцию getInfo, которая принимает объект вида
@@ -21,6 +38,22 @@
 // getInfo(organisation); → 
 // Name: Google 
 // Partners: Microsoft Facebook
+
+const organisation = {
+  name: 'Google',
+  info: { employees: ['Vlad', 'Olga'], partners: ['Microsoft', 'Facebook', 'Xing'] }
+};
+
+function getInfo() {
+  const { name = 'Unknow', info: { partners: [firstPartner, secondPartner] } } = organisation;
+  
+  return {
+    Name: name, 
+    Partners: firstPartner + ' ' + secondPartner
+  }
+}
+
+getInfo(organisation);
 
 
 // 3)
@@ -38,6 +71,15 @@
 // sum(); // 0
 
 
+const sum = (...props) => {
+  if (!props.length) return 0;
+  
+  return props.reduce( (prev, next) => prev + next );
+}
+
+sum();
+
+
 // 4)
 // Создать две функции и дать им осмысленные названия:
 // - первая функция принимает массив и колбэк (одна для всех вызовов)
@@ -51,9 +93,32 @@
 // “New value: Jhon is 45, Aaron is 20,”
 // firstFunc([‘abc’, ‘123’], handler4) → “New value: cba, 321,” // строки инвертируются
 
-
 // Подсказка: secondFunc должна быть представлена функцией, которая принимает
 // один аргумент (каждый элемент массива) и возвращает результат его обработки
+
+const greeting = ['my', 'name', 'is', 'Trinity'];
+
+function makeNewValue(arr, fn) {
+  const newValue = [];
+  let res = '';
+  
+  if ( Array.isArray(arr) && typeof fn === 'function' ) {
+    
+    for ( let i = 0; i < arr.length; i++ ) {
+      res += fn( arr[i]);
+    }
+    
+    return `New value: ${res}`;
+  }
+}
+
+function joinElements(el, arr) {
+  return el.charAt(0).toUpperCase() + el.slice(1);
+}
+
+
+let newGreeting = makeNewValue( greeting, joinElements );
+
 
 
 // 5)
@@ -61,3 +126,39 @@
 // (обязательно проверьте что передан массив) вторым аргументом callback (обязательно проверьте что передана функция)
 // функция должна возвращать true или false в зависимости от результата вызова callback 
 // (проверить число больше 5). Callback  должен принимать один элемент массива, его индекс в массиве и весь массив. 
+
+const numbersArr = [6, 7, 8, 12];
+let value = 5,
+    result;
+
+function every(arr, fn) {
+  if ( Array.isArray(arr) && typeof fn === 'function' ) {
+    const newNumbersArr = [];
+    
+    for ( let i = 0; i < arr.length; i++ ) {
+      newNumbersArr.push( fn( arr[i], i, arr ) );
+    }
+    
+    return result;
+  }
+}
+
+function checkItemValue(element, index, array) {
+  let newArr = [];
+  
+  for ( let i = 0; i < array.length; i++ ) {
+    if(array[i] > value) {
+      newArr.push(array[i]);
+    }
+  }
+  
+  if ( newArr.length === array.length ) {
+    result =  true;
+  } else {
+    result = false;
+  }
+  
+  return result;
+}
+
+every( numbersArr, checkItemValue );
