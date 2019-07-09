@@ -97,28 +97,44 @@ sum();
 // один аргумент (каждый элемент массива) и возвращает результат его обработки
 
 const greeting = ['my', 'name', 'is', 'Trinity'];
+const numArr = [10, 20, 30];
+const users = [{age: 45, name: 'Jhon'}, {age: 20, name: 'Aaron'}];
+const arr1 = ['abc', '123'];
 
 function makeNewValue(arr, fn) {
   const newValue = [];
-  let res = '';
   
   if ( Array.isArray(arr) && typeof fn === 'function' ) {
     
     for ( let i = 0; i < arr.length; i++ ) {
-      res += fn( arr[i]);
+      newValue.push( fn( arr[i] ) )
     }
     
-    return `New value: ${res}`;
+    return `New value: ${newValue}`;
   }
 }
 
-function joinElements(el, arr) {
+function joinElements(el) {
   return el.charAt(0).toUpperCase() + el.slice(1);
 }
 
+function orderValue(el) {
+  return el*10;
+}
 
-let newGreeting = makeNewValue( greeting, joinElements );
+function usersInfo(el) {
+  const { age, name } = el;
+  return `${name} is ${age}`;
+}
 
+function arrReverse(el) {
+  return el.split('').reverse().join('');
+}
+
+const newGreeting = makeNewValue( greeting, joinElements );
+const orderArr = makeNewValue( numArr, orderValue);
+const usersInfoArr = makeNewValue( users, usersInfo);
+const newReverceArr = makeNewValue( arr1, arrReverse);
 
 
 // 5)
