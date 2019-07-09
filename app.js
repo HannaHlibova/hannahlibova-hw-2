@@ -102,15 +102,15 @@ const users = [{age: 45, name: 'Jhon'}, {age: 20, name: 'Aaron'}];
 const arr1 = ['abc', '123'];
 
 function makeNewValue(arr, fn) {
-  const newValue = [];
+  let res = '';
   
   if ( Array.isArray(arr) && typeof fn === 'function' ) {
     
     for ( let i = 0; i < arr.length; i++ ) {
-      newValue.push( fn( arr[i] ) )
+      res += fn( arr[i] )
     }
     
-    return `New value: ${newValue}`;
+    return `New value: ${res}`;
   }
 }
 
@@ -119,16 +119,16 @@ function joinElements(el) {
 }
 
 function orderValue(el) {
-  return el*10;
+  return el*10 + ', ';
 }
 
 function usersInfo(el) {
   const { age, name } = el;
-  return `${name} is ${age}`;
+  return `${name} is ${age}, `;
 }
 
 function arrReverse(el) {
-  return el.split('').reverse().join('');
+  return el.split('').reverse().join('') + ', ';
 }
 
 const newGreeting = makeNewValue( greeting, joinElements );
