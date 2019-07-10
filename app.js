@@ -8,9 +8,10 @@
 //   other: [‘b’, ‘c’, ‘d’]
 // }
 
-const arr = [];
 
-function foo() {
+function getFirstElement() {
+  const arr = [];
+
   for ( let i = 0; i < arguments.length; i++ ) {
     arr.push(arguments[i]);
   }
@@ -23,7 +24,7 @@ function foo() {
   };
 }
 
-foo('a', 'b', 'c', 'd', 'e');
+getFirstElement('a', 'b', 'c', 'd', 'e');
 
 
 // 2)
@@ -44,8 +45,8 @@ const organisation = {
   info: { employees: ['Vlad', 'Olga'], partners: ['Microsoft', 'Facebook', 'Xing'] }
 };
 
-function getInfo() {
-  const { name = 'Unknow', info: { partners: [firstPartner, secondPartner] } } = organisation;
+function getInfo(orgInfo) {
+  const { name = 'Unknow', info: { partners: [firstPartner, secondPartner] } } = orgInfo;
   
   return {
     Name: name, 
@@ -102,34 +103,25 @@ const users = [{age: 45, name: 'Jhon'}, {age: 20, name: 'Aaron'}];
 const arr1 = ['abc', '123'];
 
 function makeNewValue(arr, fn) {
-  let res = '';
+  const newValue = [];
   
   if ( Array.isArray(arr) && typeof fn === 'function' ) {
     
     for ( let i = 0; i < arr.length; i++ ) {
-      res += fn( arr[i] )
+      newValue.push( fn(arr[i]) )
     }
     
-    return `New value: ${res}`;
+    return `New value: ${newValue}`;
   }
 }
 
-function joinElements(el) {
-  return el.charAt(0).toUpperCase() + el.slice(1);
-}
-
-function orderValue(el) {
-  return el*10 + ', ';
-}
-
-function usersInfo(el) {
+const joinElements = el => `${ el.charAt(0).toUpperCase() + el.slice(1) }`;
+const orderValue = el => `${el *= 10}`;
+const usersInfo = el => {
   const { age, name } = el;
-  return `${name} is ${age}, `;
+  return `${name} is ${age}`;
 }
-
-function arrReverse(el) {
-  return el.split('').reverse().join('') + ', ';
-}
+const arrReverse = el => `${ el.split('').reverse().join('') }`;
 
 const newGreeting = makeNewValue( greeting, joinElements );
 const orderArr = makeNewValue( numArr, orderValue);
@@ -151,10 +143,10 @@ function every(arr, fn) {
   if ( Array.isArray(arr) && typeof fn === 'function' ) {
     const newNumbersArr = [];
     
-    for ( let i = 0; i < arr.length; i++ ) {
-      newNumbersArr.push( fn( arr[i], i, arr ) );
+    for (let i = 0; i < arr.length; i++) {
+      newNumbersArr.push( fn(arr[i], i, arr) );
     }
-    
+
     return result;
   }
 }
